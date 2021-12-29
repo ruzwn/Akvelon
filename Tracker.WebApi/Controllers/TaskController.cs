@@ -22,56 +22,109 @@ namespace Tracker.WebApi.Controllers
 		public TaskController(IMapper mapper, IMediator mediator) =>
 				(_mapper, _mediator) = (mapper, mediator);
 
-		[HttpGet("{projectId}")]
+		/// <summary>
+		/// Use it to get all tasks of the project
+		/// </summary>
+		/// <param name="projectId">Project id</param>
+		/// <returns>List of all tasks in the project</returns>
+		[HttpGet]
 		public async Task<ActionResult<TaskListVm>> GetAll(Guid projectId)
 		{
-			var query = new GetTaskListQuery() { ProjectId = projectId };
-			var vm    = await _mediator.Send(query);
-
-			return Ok(vm);
+			try
+			{
+				var query = new GetTaskListQuery() { ProjectId = projectId };
+				var vm    = await _mediator.Send(query);
+				return Ok(vm);
+			}
+			catch
+			{
+				return NotFound();
+			}
 		}
 
-		
-		// how send tho args in response ?
-		
-		
-		[HttpGet("{projectId}/{id}")]
+		/// <summary>
+		/// Use it to get task in the project
+		/// </summary>
+		/// <param name="projectId">Project id</param>
+		/// <param name="id">Task id</param>
+		/// <returns>Task if it exists and NotFound if not</returns>
+		[HttpGet]
 		public async Task<ActionResult<TaskVm>> Get(Guid projectId, Guid id)
 		{
-			var query = new GetTaskQuery() { ProjectId = projectId, Id = id };
-			var vm    = await _mediator.Send(query);
-
-			return Ok(vm);
+			try
+			{
+				var query = new GetTaskQuery() { ProjectId = projectId, Id = id };
+				var vm    = await _mediator.Send(query);
+				return Ok(vm);
+			}
+			catch
+			{
+				return NotFound();
+			}
 		}
 
+		/// <summary>
+		/// Use it to create a task in the project
+		/// </summary>
+		/// <param name="createTaskDto">Request body</param>
+		/// <returns>Id of the created task</returns>
 		[HttpPost]
 		public async Task<ActionResult<Guid>> Create
 				([FromBody] CreateTaskDto createTaskDto)
 		{
-			var command = _mapper.Map<CreateTaskCommand>(createTaskDto);
-			var taskId  = await _mediator.Send(command);
-
-			return taskId;
+			try
+			{
+				var command = _mapper.Map<CreateTaskCommand>(createTaskDto);
+				var taskId  = await _mediator.Send(command);
+				return taskId;
+			}
+			catch
+			{
+				return NotFound();
+			}
 		}
 
+		/// <summary>
+		/// Use it to update task
+		/// </summary>
+		/// <param name="updateTaskDto">Request body</param>
+		/// <returns>NoContent</returns>
 		[HttpPut]
 		public async Task<ActionResult> Update
 				([FromBody] UpdateTaskDto updateTaskDto)
 		{
-			var command = _mapper.Map<UpdateTaskCommand>(updateTaskDto);
-			await _mediator.Send(command);
-
-			return NoContent();
+			try
+			{
+				var command = _mapper.Map<UpdateTaskCommand>(updateTaskDto);
+				await _mediator.Send(command);
+				return NoContent();
+			}
+			catch
+			{
+				return NotFound();
+			}
 		}
 
-		[HttpDelete("{projectId}/{id}")]
+		/// <summary>
+		/// Use it to delete task
+		/// </summary>
+		/// <param name="projectId">Project id</param>
+		/// <param name="id">Task id</param>
+		/// <returns>NoContent</returns>
+		[HttpDelete]
 		public async Task<ActionResult> Delete(Guid projectId, Guid id)
 		{
-			var command = new DeleteTaskCommand()
-					{ ProjectId = projectId, Id = id };
-			await _mediator.Send(command);
-
-			return NoContent();
+			try
+			{
+				var command = new DeleteTaskCommand()
+						{ ProjectId = projectId, Id = id };
+				await _mediator.Send(command);
+				return NoContent();
+			}
+			catch
+			{
+				return NotFound();
+			}
 		}
 	}
 }

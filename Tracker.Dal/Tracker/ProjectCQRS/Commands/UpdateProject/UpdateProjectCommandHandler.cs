@@ -26,14 +26,16 @@ namespace Tracker.Tracker.ProjectCQRS.Commands.UpdateProject
 				throw new NotFoundException(nameof(Project), request.Id);
 			}
 			
-
-			// если статус меняется с оконченного на другой, то удалять время окончания ?
-			
+			if (project.Status == ProjectStatus.Completed &&
+				request.Status != ProjectStatus.Completed)
+			{
+				project.CompletionDate = null;
+			}
 			
 			project.Name   = request.Name;
 			if (request.Status == ProjectStatus.Completed)
 			{
-				project.CompletionDate = DateTime.Today;
+				project.CompletionDate = DateTime.Now;
 			}
 			project.Status   = request.Status;
 			project.Priority = request.Priority;

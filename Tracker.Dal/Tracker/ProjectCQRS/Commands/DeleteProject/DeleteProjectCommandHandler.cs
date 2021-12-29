@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Tracker.Entities;
@@ -25,6 +26,10 @@ namespace Tracker.Tracker.ProjectCQRS.Commands.DeleteProject
 				throw new NotFoundException(nameof(Project), request.Id);
 			}
 
+			// remove tasks of project
+			var tasks = _dbContext.Tasks.Where(task => task.ProjectId == request.Id);
+			_dbContext.Tasks.RemoveRange(tasks);
+			
 			_dbContext.Projects.Remove(project);
 			await _dbContext.SaveChangesAsync(cancellationToken);
 			

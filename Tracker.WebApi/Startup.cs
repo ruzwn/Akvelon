@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Tracker.AutoMapperProfiles;
 using Tracker.Interfaces;
 using Tracker.Logic;
@@ -23,6 +22,8 @@ namespace Tracker.WebApi
 		
 		public void ConfigureServices(IServiceCollection services)
 		{
+			//services.AddSwaggerGen();
+			
 			var mapperConfig = new MapperConfiguration(mc =>
 			{
 				mc.AddProfile(new ProjectProfile());
@@ -51,11 +52,9 @@ namespace Tracker.WebApi
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
-			if (env.IsDevelopment())
-			{
-				app.UseDeveloperExceptionPage();
-			}
-
+			//app.UseSwagger();
+			//app.UseSwaggerUI();
+			
 			app.UseRouting();
 			app.UseHttpsRedirection();
 

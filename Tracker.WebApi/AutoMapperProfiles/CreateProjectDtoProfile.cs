@@ -10,12 +10,6 @@ namespace Tracker.WebApi.Models.AutoMapperProfiles
 		public CreateProjectDtoProfile()
 		{
 			CreateMap<CreateProjectDto, CreateProjectCommand>();
-					/*
-				   .ForMember(createProjectCommand => createProjectCommand.Name,
-							opt => opt.MapFrom(createProjectDto => createProjectDto.Name))
-				   .ForMember(createProjectCommand => createProjectCommand.Priority,
-							opt => opt.MapFrom(createProjectDto => createProjectDto.Priority));
-					*/
 		}
 	}
 }

@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -28,8 +29,9 @@ namespace Tracker.Tracker.TaskCQRS.Queries.GetTaskList
 				throw new NotFoundException(nameof(Project), request.ProjectId);
 			}
 
-			var tasks = await _dbContext.Tasks.ProjectTo<TaskDto>
-					(_mapper.ConfigurationProvider).ToListAsync(cancellationToken);
+			var tasks = await _dbContext.Tasks.Where(task => task.ProjectId == request.ProjectId)
+										.ProjectTo<TaskDto>(_mapper.ConfigurationProvider)
+										.ToListAsync(cancellationToken);
 
 			return new TaskListVm() { Tasks = tasks };
 		}

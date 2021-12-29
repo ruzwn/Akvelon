@@ -16,60 +16,111 @@ namespace Tracker.WebApi.Controllers
 	[Route("api/[controller]/[action]")]
 	public class ProjectController : ControllerBase
 	{
-		
-		// могут быть ошибки с медиатром или маппером ???
-		
 		private readonly IMapper   _mapper;
 		private readonly IMediator _mediator;
 
 		public ProjectController(IMapper mapper, IMediator mediator) =>
 				(_mapper, _mediator) = (mapper, mediator);
 
+		/// <summary>
+		/// Use it to get all projects
+		/// </summary>
+		/// <returns>List of all projects</returns>
 		[HttpGet]
 		public async Task<ActionResult<ProjectListVm>> GetAll()
 		{
-			var query = new GetProjectListQuery();
-			var vm    = await _mediator.Send(query);
-
-			return Ok(vm);
+			try
+			{
+				var query = new GetProjectListQuery();
+				var vm    = await _mediator.Send(query);
+				return Ok(vm);
+			}
+			catch
+			{
+				return NotFound();
+			}
 		}
 
-		[HttpGet("{id}")]
+		/// <summary>
+		/// Use it to get the project
+		/// </summary>
+		/// <param name="id">Project's id</param>
+		/// <returns>Project if it exists and NotFound if not</returns>
+		[HttpGet]
 		public async Task<ActionResult<ProjectVm>> Get(Guid id)
 		{
-			var query = new GetProjectQuery() { Id = id };
-			var vm    = await _mediator.Send(query);
-
-			return Ok(vm);
+			try
+			{
+				var query = new GetProjectQuery() { Id = id };
+				var vm    = await _mediator.Send(query);
+				return Ok(vm);
+			}
+			catch
+			{
+				return NotFound();
+			}
 		}
 
+		/// <summary>
+		/// Use it to create the project
+		/// </summary>
+		/// <param name="createProjectDto">Request body</param>
+		/// <returns>Id of the created project</returns>
 		[HttpPost]
 		public async Task<ActionResult<Guid>> Create
 				([FromBody] CreateProjectDto createProjectDto)
 		{
-			var command = _mapper.Map<CreateProjectCommand>(createProjectDto);
-			var projectId  = await _mediator.Send(command);
-
-			return projectId;
+			try
+			{
+				var command   = _mapper.Map<CreateProjectCommand>(createProjectDto);
+				var projectId = await _mediator.Send(command);
+				return projectId;
+			}
+			catch
+			{
+				return NotFound();
+			}
 		}
 
+		/// <summary>
+		/// Use it to update project data
+		/// </summary>
+		/// <param name="updateProjectDto">Request body</param>
+		/// <returns>NoContent</returns>
 		[HttpPut]
 		public async Task<ActionResult> Update
 				([FromBody] UpdateProjectDto updateProjectDto)
 		{
-			var command = _mapper.Map<UpdateProjectCommand>(updateProjectDto);
-			await _mediator.Send(command);
-
-			return NoContent();
+			try
+			{
+				var command = _mapper.Map<UpdateProjectCommand>(updateProjectDto);
+				await _mediator.Send(command);
+				return NoContent();
+			}
+			catch
+			{
+				return NotFound();
+			}
 		}
 
-		[HttpDelete("{id}")]
+		/// <summary>
+		/// Use it to delete the project
+		/// </summary>
+		/// <param name="id">Project id</param>
+		/// <returns>NoContent</returns>
+		[HttpDelete]
 		public async Task<ActionResult> Delete(Guid id)
 		{
-			var command = new DeleteProjectCommand() { Id = id };
-			await _mediator.Send(command);
-
-			return NoContent();
+			try
+			{
+				var command = new DeleteProjectCommand() { Id = id };
+				await _mediator.Send(command);
+				return NoContent();
+			}
+			catch
+			{
+				return NotFound();
+			}
 		}
 	}
 }

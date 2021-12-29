@@ -22,7 +22,7 @@ namespace Tracker.Tracker.ProjectCQRS.Commands.CreateProject
 			{
 					Id             = Guid.NewGuid(),
 					Name           = request.Name,
-					StartDate      = DateTime.Today,
+					StartDate      = DateTime.Now,
 					CompletionDate = null,
 					Status         = ProjectStatus.NotStarted,
 					Priority       = request.Priority
