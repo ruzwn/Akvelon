@@ -13,7 +13,7 @@ using Tracker.WebApi.Models;
 namespace Tracker.WebApi.Controllers
 {
 	[ApiController]
-	[Route("api/[controller]/[action]")]
+	[Route("api/[controller]")]
 	public class ProjectController : ControllerBase
 	{
 		private readonly IMapper   _mapper;
@@ -23,9 +23,13 @@ namespace Tracker.WebApi.Controllers
 				(_mapper, _mediator) = (mapper, mediator);
 
 		/// <summary>
-		/// Use it to get all projects
+		/// Gets the list of projects
 		/// </summary>
-		/// <returns>List of all projects</returns>
+		/// <remarks>
+		/// Sample request:
+		/// GET /project
+		/// </remarks>
+		/// <returns>Returns ProjectListVm</returns>
 		[HttpGet]
 		public async Task<ActionResult<ProjectListVm>> GetAll()
 		{
@@ -42,11 +46,15 @@ namespace Tracker.WebApi.Controllers
 		}
 
 		/// <summary>
-		/// Use it to get the project
+		/// Gets the project by id
 		/// </summary>
-		/// <param name="id">Project's id</param>
-		/// <returns>Project if it exists and NotFound if not</returns>
-		[HttpGet]
+		/// <remarks>
+		/// Sample request:
+		/// GET /project/f147135b-354c-4c93-8a42-aa2d4b5bbf63
+		/// </remarks>
+		/// <param name="id">Project id (guid)</param>
+		/// <returns>Returns ProjectVm</returns>
+		[HttpGet("{id}")]
 		public async Task<ActionResult<ProjectVm>> Get(Guid id)
 		{
 			try
@@ -60,12 +68,20 @@ namespace Tracker.WebApi.Controllers
 				return NotFound();
 			}
 		}
-
+		
 		/// <summary>
-		/// Use it to create the project
+		/// Creates the project
 		/// </summary>
-		/// <param name="createProjectDto">Request body</param>
-		/// <returns>Id of the created project</returns>
+		/// <remarks>
+		/// Sample request:
+		/// POST /project
+		/// {
+		///		name: "project name",
+		///		priority: project priority (int)
+		/// }
+		/// </remarks>
+		/// <param name="createProjectDto">CreateProjectDto object</param>
+		/// <returns>Returns id (guid)</returns>
 		[HttpPost]
 		public async Task<ActionResult<Guid>> Create
 				([FromBody] CreateProjectDto createProjectDto)
@@ -83,10 +99,20 @@ namespace Tracker.WebApi.Controllers
 		}
 
 		/// <summary>
-		/// Use it to update project data
+		/// Updates the project
 		/// </summary>
-		/// <param name="updateProjectDto">Request body</param>
-		/// <returns>NoContent</returns>
+		/// <remarks>
+		/// Sample request:
+		/// PUT /project
+		/// {
+		///		id: "f147135b-354c-4c93-8a42-aa2d4b5bbf63",
+		///		name: "project name",
+		///		status: project status (enum: 0-NotStarted, 1-Active, 2-Completed)
+		///		priority: project priority (int)
+		/// }
+		/// </remarks>
+		/// <param name="updateProjectDto">UpdateProjectDto object</param>
+		/// <returns>Returns NoContent</returns>
 		[HttpPut]
 		public async Task<ActionResult> Update
 				([FromBody] UpdateProjectDto updateProjectDto)
@@ -104,11 +130,15 @@ namespace Tracker.WebApi.Controllers
 		}
 
 		/// <summary>
-		/// Use it to delete the project
+		/// Deletes the project by id
 		/// </summary>
-		/// <param name="id">Project id</param>
-		/// <returns>NoContent</returns>
-		[HttpDelete]
+		/// <remarks>
+		/// Sample request:
+		/// DELETE /project/f147135b-354c-4c93-8a42-aa2d4b5bbf63
+		/// </remarks>
+		/// <param name="id">Project id (guid)</param>
+		/// <returns>Returns NoContent</returns>
+		[HttpDelete("{id}")]
 		public async Task<ActionResult> Delete(Guid id)
 		{
 			try

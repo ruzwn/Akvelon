@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 using Tracker.Tracker.ProjectCQRS.Commands.CreateProject;
-using Tracker.Tracker.ProjectCQRS.Commands.UpdateProject;
-using Tracker.Tracker.ProjectCQRS.Queries.GetProjectList;
+using Tracker.WebApi.Models;
 
-namespace Tracker.WebApi.Models.AutoMapperProfiles
+namespace Tracker.WebApi.AutoMapperProfilesDto
 {
 	public class CreateProjectDtoProfile : Profile
 	{

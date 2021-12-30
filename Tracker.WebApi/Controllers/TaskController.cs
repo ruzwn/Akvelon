@@ -13,7 +13,7 @@ using Tracker.WebApi.Models;
 namespace Tracker.WebApi.Controllers
 {
 	[ApiController]
-	[Route("api/[controller]/[action]")]
+	[Route("api/[controller]")]
 	public class TaskController : ControllerBase
 	{
 		private readonly IMapper   _mapper;
@@ -23,11 +23,15 @@ namespace Tracker.WebApi.Controllers
 				(_mapper, _mediator) = (mapper, mediator);
 
 		/// <summary>
-		/// Use it to get all tasks of the project
+		/// Gets the list of tasks of the project
 		/// </summary>
+		/// <remarks>
+		/// Sample request:
+		/// GET /task/f147135b-354c-4c93-8a42-aa2d4b5bbf63
+		/// </remarks>
 		/// <param name="projectId">Project id</param>
-		/// <returns>List of all tasks in the project</returns>
-		[HttpGet]
+		/// <returns>Returns TaskListVm</returns>
+		[HttpGet("{projectId}")]
 		public async Task<ActionResult<TaskListVm>> GetAll(Guid projectId)
 		{
 			try
@@ -43,12 +47,16 @@ namespace Tracker.WebApi.Controllers
 		}
 
 		/// <summary>
-		/// Use it to get task in the project
+		/// Gets the task of the project by id
 		/// </summary>
+		/// <remarks>
+		/// Sample request:
+		/// GET /task/f147135b-354c-4c93-8a42-aa2d4b5bbf63/bf4ff8a0-d3a1-4264-b352-fe06fbd34ab0
+		/// </remarks>
 		/// <param name="projectId">Project id</param>
 		/// <param name="id">Task id</param>
-		/// <returns>Task if it exists and NotFound if not</returns>
-		[HttpGet]
+		/// <returns>Returns TaskVm</returns>
+		[HttpGet("{projectId}/{id}")]
 		public async Task<ActionResult<TaskVm>> Get(Guid projectId, Guid id)
 		{
 			try
@@ -64,10 +72,20 @@ namespace Tracker.WebApi.Controllers
 		}
 
 		/// <summary>
-		/// Use it to create a task in the project
+		/// Creates the task in the project
 		/// </summary>
-		/// <param name="createTaskDto">Request body</param>
-		/// <returns>Id of the created task</returns>
+		/// <remarks>
+		/// Sample request:
+		/// POST /task
+		/// {
+		///		projectId: "f147135b-354c-4c93-8a42-aa2d4b5bbf63",
+		///		name: "task name",
+		///		description: "task description",
+		///		priotiry: task priority (int)
+		/// }
+		/// </remarks>
+		/// <param name="createTaskDto">CreateTaskDto object</param>
+		/// <returns>Returns id (guid)</returns>
 		[HttpPost]
 		public async Task<ActionResult<Guid>> Create
 				([FromBody] CreateTaskDto createTaskDto)
@@ -85,10 +103,22 @@ namespace Tracker.WebApi.Controllers
 		}
 
 		/// <summary>
-		/// Use it to update task
+		/// Updates the task of the project
 		/// </summary>
-		/// <param name="updateTaskDto">Request body</param>
-		/// <returns>NoContent</returns>
+		/// <remarks>
+		/// Sample request:
+		/// PUT /task
+		/// {
+		///		projectId: "f147135b-354c-4c93-8a42-aa2d4b5bbf63",
+		///		id: "bf4ff8a0-d3a1-4264-b352-fe06fbd34ab0",
+		///		name: "task name",
+		///		description: "task description",
+		///		status: task status (enum: 0-ToDo, 1-InProgress, 2-Done)
+		///		priority: task priority (int)
+		/// }
+		/// </remarks>
+		/// <param name="updateTaskDto">UpdateProjectDto object</param>
+		/// <returns>Returns NoContent</returns>
 		[HttpPut]
 		public async Task<ActionResult> Update
 				([FromBody] UpdateTaskDto updateTaskDto)
@@ -106,12 +136,16 @@ namespace Tracker.WebApi.Controllers
 		}
 
 		/// <summary>
-		/// Use it to delete task
+		/// Deletes the task of the project by id
 		/// </summary>
+		/// <remarks>
+		/// Sample request:
+		/// DELETE /task/f147135b-354c-4c93-8a42-aa2d4b5bbf63/bf4ff8a0-d3a1-4264-b352-fe06fbd34ab0
+		/// </remarks>
 		/// <param name="projectId">Project id</param>
 		/// <param name="id">Task id</param>
-		/// <returns>NoContent</returns>
-		[HttpDelete]
+		/// <returns>Returns NoContent</returns>
+		[HttpDelete("{projectId}/{id}")]
 		public async Task<ActionResult> Delete(Guid projectId, Guid id)
 		{
 			try

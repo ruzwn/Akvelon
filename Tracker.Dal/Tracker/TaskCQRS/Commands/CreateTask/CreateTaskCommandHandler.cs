@@ -5,7 +5,6 @@ using MediatR;
 using Tracker.Entities;
 using Tracker.Exceptions;
 using Tracker.Interfaces;
-using TaskStatus = Tracker.Entities.TaskStatus;
 
 namespace Tracker.Tracker.TaskCQRS.Commands.CreateTask
 {
@@ -33,7 +32,7 @@ namespace Tracker.Tracker.TaskCQRS.Commands.CreateTask
 					Id          = Guid.NewGuid(),
 					Name        = request.Name,
 					Description = request.Description,
-					Status      = TaskStatus.ToDo,
+					Status      = MyTaskStatus.ToDo,
 					Priority    = request.Priority
 			};
 

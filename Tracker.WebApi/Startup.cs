@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Reflection;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -6,10 +8,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Tracker.AutoMapperProfiles;
 using Tracker.Interfaces;
 using Tracker.Logic;
-using Tracker.WebApi.Models.AutoMapperProfiles;
+using Tracker.WebApi.AutoMapperProfilesDto;
 
 namespace Tracker.WebApi
 {
@@ -22,8 +25,6 @@ namespace Tracker.WebApi
 		
 		public void ConfigureServices(IServiceCollection services)
 		{
-			//services.AddSwaggerGen();
-			
 			var mapperConfig = new MapperConfiguration(mc =>
 			{
 				mc.AddProfile(new ProjectProfile());
@@ -34,13 +35,11 @@ namespace Tracker.WebApi
 				mc.AddProfile(new CreateTaskDtoProfile());
 				mc.AddProfile(new UpdateTaskDtoProfile());
 			});
-			var mapper = mapperConfig.CreateMapper();
-			services.AddSingleton(mapper);
+			services.AddSingleton(mapperConfig.CreateMapper());
 			
 			var assembly = AppDomain.CurrentDomain.Load("Tracker.Dal");
 			services.AddMediatR(assembly);
 
-			
 			var connectionString = Configuration["DbConnection"];
 			services.AddDbContext<TrackerDbContext>(options =>
 					options.UseSqlite(connectionString));
@@ -48,13 +47,28 @@ namespace Tracker.WebApi
 					provider.GetService<TrackerDbContext>());
 			
 			services.AddControllers();
+			
+			services.AddSwaggerGen(config =>
+			{
+				var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+				var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+				config.IncludeXmlComments(xmlPath);
+			});
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
-			//app.UseSwagger();
-			//app.UseSwaggerUI();
-			
+			if (env.IsDevelopment())
+			{
+				app.UseDeveloperExceptionPage();
+			}
+			app.UseSwagger();
+			app.UseSwaggerUI(config =>
+			{
+				config.RoutePrefix = string.Empty;
+				config.SwaggerEndpoint("swagger/v1/swagger.json", "Tracker API");
+			});
+
 			app.UseRouting();
 			app.UseHttpsRedirection();
 

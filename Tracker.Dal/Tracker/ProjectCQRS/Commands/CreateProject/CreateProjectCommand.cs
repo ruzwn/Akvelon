@@ -1,6 +1,5 @@
 ﻿using System;
 using MediatR;
-using Tracker.Entities;
 
 namespace Tracker.Tracker.ProjectCQRS.Commands.CreateProject
 {
