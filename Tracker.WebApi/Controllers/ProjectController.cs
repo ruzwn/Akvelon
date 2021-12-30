@@ -39,17 +39,11 @@ namespace Tracker.WebApi.Controllers
 		public async Task<ActionResult<ProjectListVm>> GetAll
 				(SortProjectStatus sortStatus)
 		{
-			try
-			{
-				var query = new GetProjectListQuery()
-						{ sortStatus = sortStatus };
-				var vm    = await _mediator.Send(query);
-				return Ok(vm);
-			}
-			catch
-			{
-				return NotFound();
-			}
+			var query = new GetProjectListQuery()
+					{ sortStatus = sortStatus };
+			var vm = await _mediator.Send(query);
+			
+			return Ok(vm);
 		}
 
 		/// <summary>
@@ -65,18 +59,12 @@ namespace Tracker.WebApi.Controllers
 		[HttpGet("{id}")]
 		public async Task<ActionResult<ProjectVm>> Get(Guid id)
 		{
-			try
-			{
-				var query = new GetProjectQuery() { Id = id };
-				var vm    = await _mediator.Send(query);
-				return Ok(vm);
-			}
-			catch
-			{
-				return NotFound();
-			}
+
+			var query = new GetProjectQuery() { Id = id };
+			var vm    = await _mediator.Send(query);
+			return Ok(vm);
 		}
-		
+
 		/// <summary>
 		/// Creates the project
 		/// </summary>
@@ -95,16 +83,10 @@ namespace Tracker.WebApi.Controllers
 		public async Task<ActionResult<Guid>> Create
 				([FromBody] CreateProjectDto createProjectDto)
 		{
-			try
-			{
-				var command   = _mapper.Map<CreateProjectCommand>(createProjectDto);
-				var projectId = await _mediator.Send(command);
-				return projectId;
-			}
-			catch
-			{
-				return NotFound();
-			}
+
+			var command   = _mapper.Map<CreateProjectCommand>(createProjectDto);
+			var projectId = await _mediator.Send(command);
+			return projectId;
 		}
 
 		/// <summary>
@@ -129,16 +111,10 @@ namespace Tracker.WebApi.Controllers
 		public async Task<ActionResult> Update
 				([FromBody] UpdateProjectDto updateProjectDto)
 		{
-			try
-			{
-				var command = _mapper.Map<UpdateProjectCommand>(updateProjectDto);
-				await _mediator.Send(command);
-				return NoContent();
-			}
-			catch
-			{
-				return NotFound();
-			}
+			var command = _mapper.Map<UpdateProjectCommand>(updateProjectDto);
+			await _mediator.Send(command);
+
+			return NoContent();
 		}
 
 		/// <summary>
@@ -154,16 +130,10 @@ namespace Tracker.WebApi.Controllers
 		[HttpDelete("{id}")]
 		public async Task<ActionResult> Delete(Guid id)
 		{
-			try
-			{
-				var command = new DeleteProjectCommand() { Id = id };
-				await _mediator.Send(command);
-				return NoContent();
-			}
-			catch
-			{
-				return NotFound();
-			}
+			var command = new DeleteProjectCommand() { Id = id };
+			await _mediator.Send(command);
+			
+			return NoContent();
 		}
 	}
 }

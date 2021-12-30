@@ -10,9 +10,6 @@ namespace Tracker.Logic.EntityTypesConfiguration
 		{
 			builder.HasKey(task => task.Id);
 			builder.HasIndex(task => task.Id);
-			
-			// task.ProjectId ???
-			
 		}
 	}
 }

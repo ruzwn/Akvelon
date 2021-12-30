@@ -38,8 +38,7 @@ namespace Tracker.Tracker.ProjectCQRS.Queries.GetProjectList
 				case SortProjectStatus.SortByCompletionDate:
 					projects.Sort((x,y) =>
 					{
-						if (x.CompletionDate == null && y.CompletionDate == null)
-							return 0;
+						if (x.CompletionDate == null && y.CompletionDate == null) return 0;
 						else if (x.CompletionDate == null) return -1;
 						else if (y.CompletionDate == null) return 1;
 						else return DateTime.Compare

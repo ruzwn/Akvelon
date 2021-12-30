@@ -13,6 +13,7 @@ using Tracker.AutoMapperProfiles;
 using Tracker.Interfaces;
 using Tracker.Logic;
 using Tracker.WebApi.AutoMapperProfilesDto;
+using Tracker.WebApi.Exceptions;
 
 namespace Tracker.WebApi
 {
@@ -62,6 +63,8 @@ namespace Tracker.WebApi
 			{
 				app.UseDeveloperExceptionPage();
 			}
+
+			app.UseMyExceptionHandler();
 			app.UseSwagger();
 			app.UseSwaggerUI(config =>
 			{
