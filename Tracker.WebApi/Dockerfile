@@ -4,8 +4,10 @@ EXPOSE 80
 EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
-WORKDIR /src
+WORKDIR ./
 COPY ["Tracker.WebApi/Tracker.WebApi.csproj", "Tracker.WebApi/"]
+COPY ["Tracker.Dal/Tracker.Dal.csproj", "Tracker.Dal/"]
+COPY ["Tracker.Logic/Tracker.Logic.csproj", "Tracker.Logic/"]
 RUN dotnet restore "Tracker.WebApi/Tracker.WebApi.csproj"
 COPY . .
 WORKDIR "/src/Tracker.WebApi"
