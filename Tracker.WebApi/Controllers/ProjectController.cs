@@ -23,19 +23,26 @@ namespace Tracker.WebApi.Controllers
 				(_mapper, _mediator) = (mapper, mediator);
 
 		/// <summary>
-		/// Gets the list of projects
+		/// Gets a sorted list of projects
 		/// </summary>
 		/// <remarks>
 		/// Sample request:
-		/// GET /project
+		///
+		///		GET /project?sortStatus=2
+		/// SortProjectStatus:
+		/// 0-NoSort, 1-SortByName, 2-SortByStartDate,
+		///	3-SortByCompletionDate, 4-SortByStatus, 5-SortByPriority
 		/// </remarks>
+		/// <param name="sortStatus">SortProjectStatus object</param>
 		/// <returns>Returns ProjectListVm</returns>
 		[HttpGet]
-		public async Task<ActionResult<ProjectListVm>> GetAll()
+		public async Task<ActionResult<ProjectListVm>> GetAll
+				(SortProjectStatus sortStatus)
 		{
 			try
 			{
-				var query = new GetProjectListQuery();
+				var query = new GetProjectListQuery()
+						{ sortStatus = sortStatus };
 				var vm    = await _mediator.Send(query);
 				return Ok(vm);
 			}
@@ -50,7 +57,8 @@ namespace Tracker.WebApi.Controllers
 		/// </summary>
 		/// <remarks>
 		/// Sample request:
-		/// GET /project/f147135b-354c-4c93-8a42-aa2d4b5bbf63
+		///
+		///		GET /project/f147135b-354c-4c93-8a42-aa2d4b5bbf63
 		/// </remarks>
 		/// <param name="id">Project id (guid)</param>
 		/// <returns>Returns ProjectVm</returns>
@@ -74,11 +82,12 @@ namespace Tracker.WebApi.Controllers
 		/// </summary>
 		/// <remarks>
 		/// Sample request:
-		/// POST /project
-		/// {
-		///		name: "project name",
-		///		priority: project priority (int)
-		/// }
+		///
+		///		POST /project
+		///		{
+		///			name: "project name",
+		///			priority: project priority (int)
+		///		}
 		/// </remarks>
 		/// <param name="createProjectDto">CreateProjectDto object</param>
 		/// <returns>Returns id (guid)</returns>
@@ -103,13 +112,16 @@ namespace Tracker.WebApi.Controllers
 		/// </summary>
 		/// <remarks>
 		/// Sample request:
-		/// PUT /project
-		/// {
-		///		id: "f147135b-354c-4c93-8a42-aa2d4b5bbf63",
-		///		name: "project name",
-		///		status: project status (enum: 0-NotStarted, 1-Active, 2-Completed)
-		///		priority: project priority (int)
-		/// }
+		///
+		///		PUT /project
+		///		{
+		///			id: "f147135b-354c-4c93-8a42-aa2d4b5bbf63",
+		///			name: "project name",
+		///			status: project status (enum)
+		///			priority: project priority (int)
+		///		}
+		/// ProjectStatus:
+		/// 0-NotStarted, 1-Active, 2-Completed
 		/// </remarks>
 		/// <param name="updateProjectDto">UpdateProjectDto object</param>
 		/// <returns>Returns NoContent</returns>
@@ -134,7 +146,8 @@ namespace Tracker.WebApi.Controllers
 		/// </summary>
 		/// <remarks>
 		/// Sample request:
-		/// DELETE /project/f147135b-354c-4c93-8a42-aa2d4b5bbf63
+		///
+		///		DELETE /project/f147135b-354c-4c93-8a42-aa2d4b5bbf63
 		/// </remarks>
 		/// <param name="id">Project id (guid)</param>
 		/// <returns>Returns NoContent</returns>

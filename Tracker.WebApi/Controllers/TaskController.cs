@@ -27,7 +27,8 @@ namespace Tracker.WebApi.Controllers
 		/// </summary>
 		/// <remarks>
 		/// Sample request:
-		/// GET /task/f147135b-354c-4c93-8a42-aa2d4b5bbf63
+		///
+		///		GET /task/f147135b-354c-4c93-8a42-aa2d4b5bbf63
 		/// </remarks>
 		/// <param name="projectId">Project id</param>
 		/// <returns>Returns TaskListVm</returns>
@@ -51,7 +52,8 @@ namespace Tracker.WebApi.Controllers
 		/// </summary>
 		/// <remarks>
 		/// Sample request:
-		/// GET /task/f147135b-354c-4c93-8a42-aa2d4b5bbf63/bf4ff8a0-d3a1-4264-b352-fe06fbd34ab0
+		///
+		///		GET /task/f147135b-354c-4c93-8a42-aa2d4b5bbf63/bf4ff8a0-d3a1-4264-b352-fe06fbd34ab0
 		/// </remarks>
 		/// <param name="projectId">Project id</param>
 		/// <param name="id">Task id</param>
@@ -76,13 +78,14 @@ namespace Tracker.WebApi.Controllers
 		/// </summary>
 		/// <remarks>
 		/// Sample request:
-		/// POST /task
-		/// {
-		///		projectId: "f147135b-354c-4c93-8a42-aa2d4b5bbf63",
-		///		name: "task name",
-		///		description: "task description",
-		///		priotiry: task priority (int)
-		/// }
+		///
+		///		POST /task
+		///		{
+		///			projectId: "f147135b-354c-4c93-8a42-aa2d4b5bbf63",
+		///			name: "task name",
+		///			description: "task description",
+		///			priotiry: task priority (int)
+		///		}
 		/// </remarks>
 		/// <param name="createTaskDto">CreateTaskDto object</param>
 		/// <returns>Returns id (guid)</returns>
@@ -107,15 +110,18 @@ namespace Tracker.WebApi.Controllers
 		/// </summary>
 		/// <remarks>
 		/// Sample request:
-		/// PUT /task
-		/// {
-		///		projectId: "f147135b-354c-4c93-8a42-aa2d4b5bbf63",
-		///		id: "bf4ff8a0-d3a1-4264-b352-fe06fbd34ab0",
-		///		name: "task name",
-		///		description: "task description",
-		///		status: task status (enum: 0-ToDo, 1-InProgress, 2-Done)
-		///		priority: task priority (int)
-		/// }
+		///
+		///		PUT /task
+		///		{
+		///			projectId: "f147135b-354c-4c93-8a42-aa2d4b5bbf63",
+		///			id: "bf4ff8a0-d3a1-4264-b352-fe06fbd34ab0",
+		///			name: "task name",
+		///			description: "task description",
+		///			status: task status (enum)
+		///			priority: task priority (int)
+		///		}
+		/// TaskStatus:
+		/// 0-ToDo, 1-InProgress, 2-Done
 		/// </remarks>
 		/// <param name="updateTaskDto">UpdateProjectDto object</param>
 		/// <returns>Returns NoContent</returns>
@@ -140,7 +146,8 @@ namespace Tracker.WebApi.Controllers
 		/// </summary>
 		/// <remarks>
 		/// Sample request:
-		/// DELETE /task/f147135b-354c-4c93-8a42-aa2d4b5bbf63/bf4ff8a0-d3a1-4264-b352-fe06fbd34ab0
+		///
+		///		DELETE /task/f147135b-354c-4c93-8a42-aa2d4b5bbf63/bf4ff8a0-d3a1-4264-b352-fe06fbd34ab0
 		/// </remarks>
 		/// <param name="projectId">Project id</param>
 		/// <param name="id">Task id</param>
