@@ -12,6 +12,7 @@ For create docker image open PowerShell and map to the solution folder (...\Akve
 Here you have to run command "docker build -t akvelondockerimage .". <br />
 After creating docker image with name "akvelondockerimage" yot need to run command "docker run -it --rm --name akvelondockercontainer akvelondockerimage"
 for creating docker creating and running container with the name "akvelondockercontainer". <br />
-Now you need to execute command "docker exec akvelondockercontainer ipconfig" and copy data of field "IPv4 Address" (172.26.6.207 for example). <br />
+Now you need to open second PowerShell window and execute command "docker exec akvelondockercontainer ipconfig"
+and copy data of field "IPv4 Address" (172.26.6.207 for example). <br />
 Well done, now you have to paste copied IPv4 Address in browser search line and press enter and now you can test my API. <br />
 To shut down the container press "Ctrl + C" in PowerShell. <br />
