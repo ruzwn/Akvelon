@@ -13,7 +13,7 @@ using Tracker.AutoMapperProfiles;
 using Tracker.Interfaces;
 using Tracker.Logic;
 using Tracker.WebApi.AutoMapperProfilesDto;
-using Tracker.WebApi.Exceptions;
+using Tracker.WebApi.Extensions;
 
 namespace Tracker.WebApi
 {

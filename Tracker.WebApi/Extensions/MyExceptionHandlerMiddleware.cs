@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Tracker.Exceptions;
 
-namespace Tracker.WebApi.Exceptions
+namespace Tracker.WebApi.Extensions
 {
 	public class MyExceptionHandlerMiddleware
 	{

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 
-namespace Tracker.WebApi.Exceptions
+namespace Tracker.WebApi.Extensions
 {
 	public static class MuExceptionHandlerMiddlewareExtension
 	{
